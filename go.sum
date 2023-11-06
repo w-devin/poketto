@@ -1,0 +1,11 @@
+github.com/kbinani/win v0.3.0 h1:SK3RHdefkmMBfWzAu0H8K2y6aAejro7QL/JJzAbRNEI=
+github.com/kbinani/win v0.3.0/go.mod h1:pCfU0a2Kv8a92CEv0T26ALQkMIjD/JQy6XKuzBndCW4=
+github.com/otiai10/copy v1.14.0 h1:dCI/t1iTdYGtkvCuBG2BgR6KZa83PTclw4U5n2wAllU=
+github.com/otiai10/copy v1.14.0/go.mod h1:ECfuL02W+/FkTWZWgQqXPWZgW9oeKCSQ5qVfSc4qc4w=
+github.com/otiai10/mint v1.5.1 h1:XaPLeE+9vGbuyEHem1JNk3bYc7KKqyI/na0/mLd/Kks=
+github.com/rodrigocfd/windigo v0.0.0-20230809154420-8faa606d9f5f h1:jIXpgDE/hOglaKyTP5ZRqe6rhcJx2dtCan2ncR66qhU=
+github.com/rodrigocfd/windigo v0.0.0-20230809154420-8faa606d9f5f/go.mod h1:Vw0QLpSedVsbAFWYIVE/Zb1pa6XPIgwIMTUQQoUG8Wo=
+golang.org/x/sync v0.3.0 h1:ftCYgMx6zT/asHUrPw8BLLscYtGznsLAnjq5RH9P66E=
+golang.org/x/sync v0.3.0/go.mod h1:FU7BRWz2tNW+3quACPkgCx/L+uEAv1htQ0V83Z9Rj+Y=
+golang.org/x/sys v0.13.0 h1:Af8nKPmuFypiUBjVoU9V20FiaFXOcuZI21p0ycVYYGE=
+golang.org/x/sys v0.13.0/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
