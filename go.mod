@@ -1,4 +1,4 @@
-module poketto
+module github.com/w-devin/poketto
 
 go 1.20
 

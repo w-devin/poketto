@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"github.com/kbinani/win"
 	windigo "github.com/rodrigocfd/windigo/win"
+	process "github.com/w-devin/poketto/windows"
 	"golang.org/x/sys/windows"
-	process "poketto/windows"
 	"strings"
 )
 
