@@ -1,6 +1,6 @@
 module github.com/w-devin/poketto
 
-go 1.20
+go 1.21
 
 require (
 	github.com/kbinani/win v0.3.0
