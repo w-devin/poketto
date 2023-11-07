@@ -54,6 +54,7 @@ func CopyFileUsedByOtherProcess(srcPath, dstPath string) error {
 	if err != nil {
 		return fmt.Errorf("failed to create file of dstPath: %s, %v", dstPath, err)
 	}
+	defer windows.CloseHandle(dstFilePtr)
 
 	duplicatedFile := windigo.HFILE(duplicatedHandle)
 	fileSize, err := duplicatedFile.GetFileSizeEx()
