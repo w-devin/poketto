@@ -25,7 +25,7 @@ func TestCopy(t *testing.T) {
 	}
 	fmt.Println("file use by some process, continue...")
 
-	err = CopyFIleUsedByOtherProcess(srcPath, dstPath)
+	err = CopyFileUsedByOtherProcess(srcPath, dstPath)
 	if err != nil {
 		fmt.Printf("failed to copy %s to %s, %v", srcPath, dstPath, err)
 	}

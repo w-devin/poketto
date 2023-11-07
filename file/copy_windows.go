@@ -15,7 +15,7 @@ var (
 	windowsApi = process.WindowsApi{}
 )
 
-func CopyFIleUsedByOtherProcess(srcPath, dstPath string) error {
+func CopyFileUsedByOtherProcess(srcPath, dstPath string) error {
 	// 找到占用文件的进程及文件的句柄号
 	pid, fileHandlerNumber, err := FindProcessAndFileHandlerByFileName(srcPath)
 	if err != nil {
