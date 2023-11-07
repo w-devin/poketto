@@ -16,7 +16,7 @@ var (
 )
 
 func CopyFIleUsedByOtherProcess(srcPath, dstPath string) error {
-	// 找到目标文件进程及句柄
+	// 找到占用文件的进程及文件的句柄号
 	pid, fileHandlerNumber, err := FindProcessAndFileHandlerByFileName(srcPath)
 	if err != nil {
 		fmt.Printf("failed to found process and file handler of %s, %v", srcPath, err)

@@ -110,8 +110,7 @@ func (a *WindowsApi) GetObjectName(handle windows.Handle) (string, error) {
 		return "", err
 	}
 
-	status := a.NtQueryObject(handle, ObjectNameInformationClass,
-		&buffer[0], uint32(len(buffer)), &length)
+	status := a.NtQueryObject(handle, ObjectNameInformationClass, &buffer[0], uint32(len(buffer)), &length)
 	if status != windows.STATUS_SUCCESS {
 		return "", status
 	}
