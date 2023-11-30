@@ -7,6 +7,7 @@
 ### windows
 
 1. CopyFileUsedByOtherProcess, 可以用普通权限复制被其他进程占用的文件
+2. DeleteSelfDuringRunning, 文件运行状态下的自删除
 
 
 ### db
