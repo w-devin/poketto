@@ -19,6 +19,10 @@ var (
 	instanceCount     = 0
 )
 
+type SQLiteBase struct {
+	database uintptr
+}
+
 func Init() {
 	if !file.IsFileExists(SQLITE3DLL) {
 		sqlite3Dll := assets.GetSqliteDll()
