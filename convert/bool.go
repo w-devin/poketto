@@ -1,4 +1,4 @@
-package basic
+package convert
 
 func Btoi(b bool) int {
 	if b {
