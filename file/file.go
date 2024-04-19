@@ -36,6 +36,18 @@ func IsDirExists(folder string) bool {
 	return info.IsDir()
 }
 
+func CreateFolder(folderName string) error {
+	if _, err := os.Stat(folderName); err != nil {
+		if !os.IsExist(err) {
+			err = os.MkdirAll(folderName, os.ModePerm)
+			if err != nil {
+				return fmt.Errorf("failed to create folder: %s, %v", folderName, err)
+			}
+		}
+	}
+	return nil
+}
+
 // FilesInFolder returns the filepath contains in the provided folder
 func FilesInFolder(dir, filename string) ([]string, error) {
 	if !IsDirExists(dir) {
