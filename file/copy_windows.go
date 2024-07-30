@@ -88,7 +88,7 @@ func FindProcessAndFileHandlerByFileName(srcPath string) (pid uint32, fileHandle
 			continue
 		}
 
-		if strings.HasSuffix(fileName, srcPath[2:]) {
+		if len(srcPath) > 2 && strings.HasSuffix(fileName, srcPath[2:]) {
 			return handler.ProcessId, windows.Handle(handler.HandleValue), nil
 		}
 	}
