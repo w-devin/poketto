@@ -6,7 +6,6 @@ import (
 	"github.com/sirupsen/logrus"
 	"io"
 	"os"
-	"path/filepath"
 	"regexp"
 	"runtime"
 	"strings"
@@ -17,10 +16,10 @@ var Logger = logrus.New()
 var frameIgnored = regexp.MustCompile(`(?)(github.com/sirupsen/logrus)|(logger.go)`)
 
 func init() {
-	Init("info", "")
+	Init("info")
 }
 
-func Init(level string, fileDir string) {
+func Init(level string, writers ...io.Writer) {
 	//Logger.SetFormatter(&logrus.JSONFormatter{})
 	Logger.SetFormatter(&logrus.TextFormatter{
 		FullTimestamp:   true,
@@ -54,16 +53,10 @@ func Init(level string, fileDir string) {
 			return fmt.Sprintf(" [%s:%d]", file, line), ""
 		},
 	})
-	if fileDir == "" {
-		Logger.SetOutput(os.Stdout)
-	} else {
-		logFile := filepath.Join(fileDir, "access.scanner")
-		f, err := os.OpenFile(logFile, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0700)
-		if err != nil {
-			panic(err)
-		}
-		Logger.SetOutput(io.MultiWriter(os.Stdout, f))
-	}
+
+	writers = append(writers, os.Stdout)
+	Logger.SetOutput(io.MultiWriter(writers...))
+
 	lvl, err := logrus.ParseLevel(level)
 	if err != nil {
 		lvl = logrus.DebugLevel
