@@ -16,15 +16,16 @@ var Logger = logrus.New()
 var frameIgnored = regexp.MustCompile(`(?)(github.com/sirupsen/logrus)|(logger.go)`)
 
 func init() {
-	Init("info")
+	Init("info", false)
 }
 
-func Init(level string, writers ...io.Writer) {
+func Init(level string, disableColors bool, writers ...io.Writer) {
 	//Logger.SetFormatter(&logrus.JSONFormatter{})
 	Logger.SetFormatter(&logrus.TextFormatter{
 		FullTimestamp:   true,
 		ForceColors:     true,
 		TimestampFormat: "2006-01-02 15:04:05",
+		DisableColors:   disableColors,
 		CallerPrettyfier: func(frame *runtime.Frame) (function string, file string) {
 			file = "???"
 			line := 0
