@@ -2,8 +2,7 @@ package logger
 
 import (
 	"fmt"
-	"github.com/orandin/sentrus"
-	"github.com/sirupsen/logrus"
+	"github.com/w-devin/logrus"
 	"io"
 	"os"
 	"regexp"
@@ -20,10 +19,10 @@ func init() {
 }
 
 func Init(level string, disableColors bool, writers ...io.Writer) {
-	//Logger.SetFormatter(&logrus.JSONFormatter{})
 	Logger.SetFormatter(&logrus.TextFormatter{
+		DisableQuote:    true,
+		DisableSorting:  true,
 		FullTimestamp:   true,
-		ForceColors:     true,
 		TimestampFormat: "2006-01-02 15:04:05",
 		DisableColors:   disableColors,
 		CallerPrettyfier: func(frame *runtime.Frame) (function string, file string) {
@@ -64,8 +63,6 @@ func Init(level string, disableColors bool, writers ...io.Writer) {
 	}
 	Logger.SetLevel(lvl)
 	Logger.SetReportCaller(true)
-
-	Logger.AddHook(sentrus.NewHook([]logrus.Level{logrus.WarnLevel, logrus.ErrorLevel, logrus.FatalLevel}))
 }
 
 func Print(args ...interface{}) {
