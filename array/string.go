@@ -22,6 +22,16 @@ func InFold(a string, arr []string) bool {
 	return false
 }
 
+func IndexOfFold(a string, arr []string) int {
+	for index, b := range arr {
+		if strings.EqualFold(a, b) {
+			return index
+		}
+	}
+
+	return -1
+}
+
 func Distinct(arr []string) []string {
 	ret := make([]string, 0, len(arr))
 	for _, v := range arr {
