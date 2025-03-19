@@ -12,7 +12,7 @@ import (
 
 var Logger = logrus.New()
 
-var frameIgnored = regexp.MustCompile(`(?)(github.com/sirupsen/logrus)|(logger.go)`)
+var frameIgnored = regexp.MustCompile(`(?)(github.com/w-devin/logrus)|(logger.go)`)
 
 func init() {
 	Init("info", false)
@@ -43,17 +43,20 @@ func CallerPrettifier(frame *runtime.Frame) (function string, file string) {
 
 	slices := strings.Split(file, "/")
 	file = slices[len(slices)-1]
-	return fmt.Sprintf(" [%s:%d]", file, line), ""
+	return fmt.Sprintf("%s:%d", file, line), ""
 }
 
 func Init(level string, disableColors bool, writers ...io.Writer) {
 	Logger.SetFormatter(&logrus.TextFormatter{
-		DisableQuote:     true,
-		DisableSorting:   true,
-		FullTimestamp:    true,
-		TimestampFormat:  "2006-01-02 15:04:05",
-		DisableColors:    disableColors,
-		CallerPrettyfier: CallerPrettifier,
+		DisableQuote:    true,
+		DisableSorting:  true,
+		FullTimestamp:   true,
+		TimestampFormat: "2006-01-02 15:04:05",
+		DisableColors:   disableColors,
+		CallerPrettyfier: func(frame *runtime.Frame) (function string, file string) {
+			function, file = CallerPrettifier(frame)
+			return fmt.Sprintf("[%s]", function), file
+		},
 	})
 
 	writers = append(writers, os.Stdout)
