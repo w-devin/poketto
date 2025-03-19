@@ -18,40 +18,42 @@ func init() {
 	Init("info", false)
 }
 
+func CallerPrettifier(frame *runtime.Frame) (function string, file string) {
+	file = "???"
+	line := 0
+
+	pc := make([]uintptr, 64)
+	n := runtime.Callers(3, pc)
+	if n != 0 {
+		pc = pc[:n]
+		frames := runtime.CallersFrames(pc)
+
+		for {
+			frame, more := frames.Next()
+			if !frameIgnored.MatchString(frame.File) {
+				file = frame.File
+				line = frame.Line
+				break
+			}
+			if !more {
+				break
+			}
+		}
+	}
+
+	slices := strings.Split(file, "/")
+	file = slices[len(slices)-1]
+	return fmt.Sprintf(" [%s:%d]", file, line), ""
+}
+
 func Init(level string, disableColors bool, writers ...io.Writer) {
 	Logger.SetFormatter(&logrus.TextFormatter{
-		DisableQuote:    true,
-		DisableSorting:  true,
-		FullTimestamp:   true,
-		TimestampFormat: "2006-01-02 15:04:05",
-		DisableColors:   disableColors,
-		CallerPrettyfier: func(frame *runtime.Frame) (function string, file string) {
-			file = "???"
-			line := 0
-
-			pc := make([]uintptr, 64)
-			n := runtime.Callers(3, pc)
-			if n != 0 {
-				pc = pc[:n]
-				frames := runtime.CallersFrames(pc)
-
-				for {
-					frame, more := frames.Next()
-					if !frameIgnored.MatchString(frame.File) {
-						file = frame.File
-						line = frame.Line
-						break
-					}
-					if !more {
-						break
-					}
-				}
-			}
-
-			slices := strings.Split(file, "/")
-			file = slices[len(slices)-1]
-			return fmt.Sprintf(" [%s:%d]", file, line), ""
-		},
+		DisableQuote:     true,
+		DisableSorting:   true,
+		FullTimestamp:    true,
+		TimestampFormat:  "2006-01-02 15:04:05",
+		DisableColors:    disableColors,
+		CallerPrettyfier: CallerPrettifier,
 	})
 
 	writers = append(writers, os.Stdout)
