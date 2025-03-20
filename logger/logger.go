@@ -17,7 +17,7 @@ var Logger = logrus.New()
 var frameIgnored = regexp.MustCompile(`(?)(github.com/w-devin/logrus)|(logger.go)`)
 
 func init() {
-	Init("info", "", false)
+	Init("info", GetDefaultTextFormatter(false, ""))
 }
 
 func GetDefaultTextFormatter(disableColors bool, projectName string) *logrus.TextFormatter {
@@ -70,7 +70,7 @@ func GetCallerPrettifier(projectName string) func(frame *runtime.Frame) (functio
 		if projectName != "" {
 			projectNameIndex := array.IndexOfFold(projectName, slices)
 			if projectNameIndex == -1 {
-				Fatalf("projectName Error")
+				Warnf("The project name is incorrect. Please provide CallePrettifier with a valid project name.")
 				os.Exit(-1)
 			}
 
@@ -83,8 +83,8 @@ func GetCallerPrettifier(projectName string) func(frame *runtime.Frame) (functio
 	}
 }
 
-func Init(level, projectName string, disableColors bool, writers ...io.Writer) {
-	Logger.SetFormatter(GetDefaultTextFormatter(disableColors, projectName))
+func Init(level string, formatter logrus.Formatter, writers ...io.Writer) {
+	Logger.SetFormatter(formatter)
 
 	writers = append(writers, os.Stdout)
 	Logger.SetOutput(io.MultiWriter(writers...))
