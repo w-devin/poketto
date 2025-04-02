@@ -12,15 +12,17 @@ import (
 	"strings"
 )
 
-var Logger = logrus.New()
+var (
+	Logger = logrus.New()
+)
 
 var frameIgnored = regexp.MustCompile(`(?)(github.com/w-devin/logrus)|(logger.go)`)
 
 func init() {
-	Init("info", GetDefaultTextFormatter(false, ""))
+	Init("info", GetDefaultTextFormatter(false, "", false))
 }
 
-func GetDefaultTextFormatter(disableColors bool, projectName string) *logrus.TextFormatter {
+func GetDefaultTextFormatter(disableColors bool, projectName string, isDebug bool) *logrus.TextFormatter {
 	return &logrus.TextFormatter{
 		DisableQuote:    true,
 		DisableSorting:  true,
@@ -28,20 +30,20 @@ func GetDefaultTextFormatter(disableColors bool, projectName string) *logrus.Tex
 		TimestampFormat: "2006-01-02 15:04:05",
 		DisableColors:   disableColors,
 		CallerPrettyfier: func(frame *runtime.Frame) (function string, file string) {
-			function, file = GetCallerPrettifier(projectName)(frame)
+			function, file = GetCallerPrettifier(projectName, isDebug)(frame)
 			return fmt.Sprintf("[%s]", function), file
 		},
 	}
 }
 
-func GetDefaultJsonFormatter(projectName string) *logrus.JSONFormatter {
+func GetDefaultJsonFormatter(projectName string, isDebug bool) *logrus.JSONFormatter {
 	return &logrus.JSONFormatter{
 		TimestampFormat:  "2006-01-02 15:04:05",
-		CallerPrettyfier: GetCallerPrettifier(projectName),
+		CallerPrettyfier: GetCallerPrettifier(projectName, isDebug),
 	}
 }
 
-func GetCallerPrettifier(projectName string) func(frame *runtime.Frame) (function string, file string) {
+func GetCallerPrettifier(projectName string, isDebug bool) func(frame *runtime.Frame) (function string, file string) {
 	return func(frame *runtime.Frame) (function string, file string) {
 		file = "???"
 		line := 0
@@ -65,8 +67,11 @@ func GetCallerPrettifier(projectName string) func(frame *runtime.Frame) (functio
 			}
 		}
 
-		slices := strings.Split(file, "/")
+		if isDebug {
+			return fmt.Sprintf(" %s:%d ", file, line), ""
+		}
 
+		slices := strings.Split(file, "/")
 		if projectName != "" {
 			projectNameIndex := array.IndexOfFold(projectName, slices)
 			if projectNameIndex == -1 {
