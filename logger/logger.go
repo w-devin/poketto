@@ -74,12 +74,9 @@ func GetCallerPrettifier(projectName string, isDebug bool) func(frame *runtime.F
 		slices := strings.Split(file, "/")
 		if projectName != "" {
 			projectNameIndex := array.IndexOfFold(projectName, slices)
-			if projectNameIndex == -1 {
-				fmt.Println("The project name is incorrect. Please provide CallerPrettifier with a valid project name.")
-				os.Exit(-1)
+			if projectNameIndex != -1 {
+				file = strings.Join(slices[projectNameIndex:], string(filepath.Separator))
 			}
-
-			file = strings.Join(slices[projectNameIndex:], string(filepath.Separator))
 		} else {
 			file = slices[len(slices)-1]
 		}
