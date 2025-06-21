@@ -75,7 +75,7 @@ func GetCallerPrettifier(projectName string, isDebug bool) func(frame *runtime.F
 		if projectName != "" {
 			projectNameIndex := array.IndexOfFold(projectName, slices)
 			if projectNameIndex == -1 {
-				Warnf("The project name is incorrect. Please provide CallePrettifier with a valid project name.")
+				fmt.Println("The project name is incorrect. Please provide CallerPrettifier with a valid project name.")
 				os.Exit(-1)
 			}
 
